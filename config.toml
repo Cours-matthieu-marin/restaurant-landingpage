@@ -6,6 +6,11 @@ theme = "restaurant-hugo"
 summaryLength = "10"
 paginate = 4
 
+# Author information for RSS
+[author]
+name = "Restaurant Hugo"
+email = "contact@restaurant-hugo.com"
+
 ############################# Plugins ##############################
 
 # CSS Plugins
