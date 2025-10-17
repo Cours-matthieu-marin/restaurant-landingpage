@@ -2,6 +2,23 @@
 
 > This website is built with [Hugo ♥](https://gohugo.io/) -- [Live demo link](https://lowess.github.io/restaurant-landingpage/)
 
+## 🚀 Déploiement Automatique
+
+Ce projet est configuré pour un déploiement automatique sur AWS S3 via GitHub Actions.
+
+### Configuration requise
+- Bucket S3 configuré pour l'hébergement de sites web statiques
+- Credentials AWS configurés dans les secrets GitHub
+- CloudFront (optionnel) pour de meilleures performances
+
+### Secrets GitHub à configurer
+- `AWS_ACCESS_KEY_ID`
+- `AWS_SECRET_ACCESS_KEY` 
+- `S3_BUCKET_NAME`
+- `CLOUDFRONT_DISTRIBUTION_ID` (optionnel)
+
+📖 **Voir [DEPLOYMENT.md](DEPLOYMENT.md) pour le guide complet de déploiement**
+
 ## Production release process
 
 |                 |                    |

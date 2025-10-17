@@ -1,5 +1,5 @@
 ######################## default configuration ####################
-baseURL = "localhost:8080"
+baseURL = "https://resto-drone-ccm2.s3.us-east-1.amazonaws.com/"
 languageCode = "en-us"
 title = "Restaurant Hugo"
 theme = "restaurant-hugo"
@@ -78,7 +78,7 @@ logo = "images/logo.png"
 author = "Themefisher"
 description = "This is meta description"
 # google analitycs ID
-google_analitycs_id = "Your ID"
+google_analitycs_id = "G-XXXXXXXXXX"
 # mainSections
 main_sections = ["post"]
 # copyright
