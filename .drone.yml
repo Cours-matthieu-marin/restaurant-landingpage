@@ -24,8 +24,8 @@ steps:
       secret_key:
         from_secret: aws_secret_access_key
     when:
-      event: push
-      branch: master
+      event: [ push ]
+      branch: [ master ]
 
   - name: display_urls
     image: lowess/drone-tabulate
@@ -43,5 +43,5 @@ steps:
           - "S3 Direct"
           - https://resto-drone-ccm2.s3.us-east-1.amazonaws.com/
     when:
-      event: push
-      branch: master
+      event: [ push ]
+      branch: [ master ]
