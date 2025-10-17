@@ -6,7 +6,7 @@ kind: pipeline
 name: hugo-s3-deploy
 steps:
   - name: hugo-build
-    image: peaceiris/hugo:v0.120.0-ext
+    image: klakegg/hugo:0.120.0-ext-alpine
     environment:
       <<: *hugo_env
     commands:
