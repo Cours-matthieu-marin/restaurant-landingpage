@@ -2,6 +2,7 @@ hugo_env: &hugo_env
    BASE_URL: https://${DRONE_REPO_OWNER,,}.github.io/${DRONE_REPO_NAME}/
 
 kind: pipeline
+type: docker
 name: hugo-website
 steps:
   - name: hugo-build
@@ -12,36 +13,7 @@ steps:
       - hugo --baseURL $BASE_URL
 
   - name: deploy-to-s3
-    image: plugins/s3
-    settings:
-      bucket: resto-files-ccm2
-      region: us-east-1
-      source: public/
-      target: /
-      delete: true
-      access_key:
-        from_secret: aws_access_key_id
-      secret_key:
-        from_secret: aws_secret_access_key
-    when:
-      event: [ push ]
-      branch: [ master ]
-
-  - name: display_urls
-    image: lowess/drone-tabulate
-    environment:
-      <<: *hugo_env
-    settings:
-      headers:
-        - Service
-        - URL
-      rows:
-        -
-          - "S3 Website"
-          - https://resto-drone-ccm2.s3-website-us-east-1.amazonaws.com/
-        -
-          - "S3 Direct"
-          - https://resto-drone-ccm2.s3.us-east-1.amazonaws.com/
-    when:
-      event: [ push ]
-      branch: [ master ]
+    image: amazon/aws-cli:latest
+    commands:
+      - aws s3 sync public/ s3://resto-files-ccm2 --delete
+      - aws s3 cp s3://resto-files-ccm2/index.html s3://resto-files-ccm2/index.html --cache-control "no-cache"
