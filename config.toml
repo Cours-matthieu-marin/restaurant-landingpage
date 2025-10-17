@@ -11,6 +11,10 @@ paginate = 4
 name = "Restaurant Hugo"
 email = "contact@restaurant-hugo.com"
 
+# Disable RSS generation to avoid template errors
+disableRSS = true
+disableSitemap = false
+
 ############################# Plugins ##############################
 
 # CSS Plugins
@@ -80,7 +84,8 @@ weight = 6
 [params]
 logo = "images/logo.png"
 # meta data
-author = "Themefisher"
+author = "Restaurant Hugo"
+email = "contact@restaurant-hugo.com"
 description = "This is meta description"
 # google analitycs ID
 google_analitycs_id = "G-XXXXXXXXXX"

@@ -4,20 +4,25 @@
 
 ## 🚀 Déploiement Automatique
 
-Ce projet est configuré pour un déploiement automatique sur AWS S3 via GitHub Actions.
+Ce projet est configuré pour un déploiement automatique sur AWS S3 via Drone CI.
 
 ### Configuration requise
 - Bucket S3 configuré pour l'hébergement de sites web statiques
-- Credentials AWS configurés dans les secrets GitHub
-- CloudFront (optionnel) pour de meilleures performances
+- Credentials AWS configurés dans les secrets Drone
+- Instance Drone CI configurée
 
-### Secrets GitHub à configurer
-- `AWS_ACCESS_KEY_ID`
-- `AWS_SECRET_ACCESS_KEY` 
-- `S3_BUCKET_NAME`
-- `CLOUDFRONT_DISTRIBUTION_ID` (optionnel)
+### Secrets Drone à configurer
+- `aws_access_key_id` - Votre clé d'accès AWS
+- `aws_secret_access_key` - Votre clé secrète AWS
 
-📖 **Voir [DEPLOYMENT.md](DEPLOYMENT.md) pour le guide complet de déploiement**
+### Configuration du bucket S3
+```bash
+# Créer le bucket
+aws s3 mb s3://resto-files-ccm2
+
+# Configurer pour l'hébergement web
+aws s3 website s3://resto-files-ccm2 --index-document index.html --error-document 404.html
+```
 
 ## Production release process
 
