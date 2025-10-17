@@ -1,16 +1,15 @@
----
 hugo_env: &hugo_env
-   BASE_URL: https://resto-drone-ccm2.s3.us-east-1.amazonaws.com/
+   BASE_URL: https://${DRONE_REPO_OWNER,,}.github.io/${DRONE_REPO_NAME}/
 
 kind: pipeline
-name: hugo-s3-deploy
+name: hugo-website
 steps:
   - name: hugo-build
-    image: hugomods/hugo:debian-nightly-non-root
+    image: peaceiris/hugo:v0.65.3-mod
     environment:
       <<: *hugo_env
     commands:
-      - hugo --minify --baseURL $BASE_URL
+      - hugo --baseURL $BASE_URL
 
   - name: deploy-to-s3
     image: plugins/s3
