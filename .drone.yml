@@ -6,7 +6,7 @@ kind: pipeline
 name: hugo-s3-deploy
 steps:
   - name: hugo-build
-    image: klakegg/hugo:0.120.0-ext-alpine
+    image: hugomods/hugo:debian-nightly-non-root
     environment:
       <<: *hugo_env
     commands:
