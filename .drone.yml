@@ -1,19 +1,44 @@
-hugo_env: &hugo_env
-   BASE_URL: https://${DRONE_REPO_OWNER,,}.github.io/${DRONE_REPO_NAME}/
-
 kind: pipeline
 type: docker
-name: hugo-website
+name: hugo-to-s3
+
 steps:
   - name: hugo-build
     image: peaceiris/hugo:v0.65.3-mod
     environment:
-      <<: *hugo_env
+      AWS_REGION:
+        from_secret: aws_region
+      BUCKET:
+        from_secret: s3_bucket_name
     commands:
-      - hugo --baseURL $BASE_URL
+      - hugo --minify --baseURL "https://my-restaurant-site-ccm-123456.s3.us-east-1.amazonaws.com/"
 
-  - name: deploy-to-s3
-    image: amazon/aws-cli:latest
+  - name: debug-list
+    image: alpine:3.20
     commands:
-      - aws s3 sync public/ s3://resto-files-ccm2 --delete
-      - aws s3 cp s3://resto-files-ccm2/index.html s3://resto-files-ccm2/index.html --cache-control "no-cache"
+      - ls -la
+      - ls -la public | head -50
+      -
+  - name: upload-to-s3
+    image: public.ecr.aws/aws-cli/aws-cli:latest
+    environment:
+      AWS_ACCESS_KEY_ID:
+        from_secret: aws_access_key_id
+      AWS_SECRET_ACCESS_KEY:
+        from_secret: aws_secret_access_key
+      AWS_SESSION_TOKEN:
+        from_secret: aws_session_token
+      AWS_REGION:
+        from_secret: aws_region
+      BUCKET:
+        from_secret: s3_bucket_name
+    commands:
+      - set -euo pipefail
+      - echo "Bucket=my-restaurant-site-ccm-123456  Region=us-east-1"
+      - aws --version
+      - aws sts get-caller-identity >/dev/null
+      - aws s3 sync public/ "s3://my-restaurant-site-ccm-123456/" --region "us-east-1" --delete --cache-control "max-age=300"
+      - aws s3 ls "s3://my-restaurant-site-ccm-123456/" --region "us-east-1" | head -20
+    when:
+      event: [ push ]
+      branch: [ master ]
